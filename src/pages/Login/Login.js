@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
 import useJwtToken from '../../hooks/useJwtToken';
+import SocialLogin from '../../shared/SocialLogin/SocialLogin';
 
 
 
@@ -15,7 +16,6 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const location = useLocation()
     const from = location.state?.from?.pathname || '/'
-    console.log(from);
     const navigate = useNavigate()
     const [userMail, setUserMail] = useState('')
     const [token] = useJwtToken(userMail)
@@ -95,10 +95,8 @@ const Login = () => {
           {loginError && <p className="text-error">{loginError}</p>}
         </div>
         <div className="divider text-primary">OR</div>
-        <div className="form-control">
-          <button className="btn btn-primary text-secondary"><FaGoogle className="mr-2" /> Sign in with google</button>
-        </div>
       </form>
+        <SocialLogin setUserMail={setUserMail} />
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import { storage } from '../../firebase/firebase.config';
 import useJwtToken from '../../hooks/useJwtToken';
+import SocialLogin from '../../shared/SocialLogin/SocialLogin';
 
 
 
@@ -171,10 +172,8 @@ const Register = () => {
                 </label>
               </div>
               <div className="divider text-primary">OR</div>
-              <div className="form-control">
-                <button className="btn btn-primary text-secondary"><FaGoogle className="mr-2" /> Sign in with google</button>
-              </div>
             </form>
+                  <SocialLogin/>
           </div>
         </div>
       </div>
