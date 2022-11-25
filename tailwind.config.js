@@ -6,14 +6,16 @@ module.exports = {
       {
         mytheme: {
           primary: "#F3EFE0",
-          secondary: "#222222",
-          accent: "#00E7FF",
+          secondary: "#0F172A",
+          accent: "#1E293B",
           neutral: "#285430",
+          info: "#7743DB",
         },
         dark: {
           ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
-          primary: "#222222",
+          primary: "#0F172A",
           secondary: "#F3EFE0",
+          info: "#7743DB",
         },
       },
       "dark",

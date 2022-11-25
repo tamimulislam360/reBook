@@ -1,5 +1,5 @@
 .menu :where(li:not(.menu-title):not(:empty)) > :where(:not(ul).active) {
-    background-color: #222222;
+    background-color: #0F172A;
     color: #F3EFE0;
   }
   html[data-theme="dark"]
@@ -7,5 +7,5 @@
     :where(li:not(.menu-title):not(:empty))
     > :where(:not(ul).active) {
     background-color: #F3EFE0;
-    color: #222222;
+    color: #0F172A;
   }
