@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthProvider';
-import useAdmin from '../hooks/useAdmin';
+import useAdminOrSeller from '../hooks/useAdminOrSeller';
 import NavBar from '../shared/NavBar/NavBar';
 
 const DashboardLayout = () => {
     const {user} = useContext(AuthContext)
-    const [isAdmin] = useAdmin(user?.email)
+    const [isAdminOrSeller] = useAdminOrSeller(user?.email)
     return (
         <div>
             {/* <NavBar /> */}
@@ -20,12 +20,18 @@ const DashboardLayout = () => {
                 <label htmlFor="dashboard-drawer" className="drawer-overlay"></label> 
                 <ul className="menu p-4 w-80 text-secondary">
                
-                <li><Link className="font-semibold" to="/dashboard">My Orders</Link></li>
                 {
-                isAdmin && <>
+                    isAdminOrSeller === 'buyer' && <li><Link className="font-semibold" to="/dashboard">My Orders</Link></li>
+                }
+                {
+                isAdminOrSeller === 'seller' && <>
                     <li><Link className="font-semibold" to="/dashboard/users">Add A product</Link></li>
                     <li><Link className="font-semibold" to="/dashboard/adddoctor">My Products</Link></li>
                     <li><Link className="font-semibold" to="/dashboard/managedoctor">My buyers</Link></li>
+                </>
+                }
+                {
+                isAdminOrSeller === 'admin' && <>
                     <li><Link className="font-semibold" to="/dashboard/managedoctor">All Sellers</Link></li>
                     <li><Link className="font-semibold" to="/dashboard/managedoctor">All Buyers</Link></li>
                     <li><Link className="font-semibold" to="/dashboard/managedoctor">Reported Items</Link></li>
