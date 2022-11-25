@@ -1,18 +1,26 @@
 import { Player } from '@lottiefiles/react-lottie-player';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import { storage } from '../../firebase/firebase.config';
+import useJwtToken from '../../hooks/useJwtToken';
 
 
 
 const Register = () => {
-    const { createUser, updateUserProfile } = useContext(AuthContext)
+    const { createUser, updateUserProfile, logOut } = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate()
+    const [userMail, setUserMail] = useState('')
+    const [token] = useJwtToken(userMail)
+    console.log(token);
+    if (token) {
+        logOut().then(res => {navigate('/login')}).catch(err => { console.error(err) })
+    }
 
     // const imgbbHostKey = process.env.REACT_APP_imgBbKey
     // const url = `https://api.imgbb.com/1/upload?key=${imgbbHostKey}`
@@ -43,8 +51,10 @@ const Register = () => {
                     // update profile
                     updateUserProfile(profile)
                     .then(res => {
-                        const user = res.user
-                        console.log('After update user profile', user);
+                        // const user = res?.user
+                        // console.log('After update user profile', user);
+
+                        seveUserToDb(data.name, data.email, data.position)
                     })
                     .catch((err) => {console.error(err)})
 
@@ -57,68 +67,23 @@ const Register = () => {
             console.error(err);
         })
 
-
-        // const formData = new FormData();
-        // formData.append('imageData', data.image[0])
-
-        // fetch(url, {
-        //     method: 'POST',
-        //     body: formData
-        // }).then(res => res.json())
-        // .then(imageData => {
         
-        //     console.log(imageData);
-        // })
-        
-         
-        // const uploadImage = storage.ref(`images/${data.image[0].name}`).put(data.image[0])
-        // uploadImage.on(
-        //     "state_changed",
-        //     error => {
-        //         console.log(error);
-        //     },
-        //     () => {
-        //         storage
-        //             .ref('images')
-        //             .child(data.image[0].name)
-        //             .getDownloadURL()
-        //             .then(url => {
-        //                 console.log(url);
-        //             })
+        // seve user to database
+        const seveUserToDb = (name, email, role) => {
+            const user = { name, email, role }
+            fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(user)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setUserMail(email)
+                }
 
-        //     }
-        // )
-
-
-        // const imgHostKey = process.env.REACT_APP_imgBb_api_key
-        // const url = `https://api.imgbb.com/1/upload?expiration=600&key=cd77927d11fbcb79670f08e2db473ca0`
-        // const formdata = new FormData();
-        // formdata.append('image', data.image[0])
-      
-        // fetch(url, {
-        //     method: 'POST',
-        //     body: formdata
-        // })
-        // .then(res => res.json())
-        // .then(imgData => {
-        //     console.log(imgData);
-        //     const profile = {
-        //         displayName: data.name,
-        //         photoURL: imgData.data.url
-        //     }
-            
-        //     createUser(data.email, data.password)
-        //     .then(res => {
-        //     toast.success('user created successfully.')
-            
-        //     updateUserProfile(profile)
-        //     .then(res => {})
-        //     .catch(err => {console.log(err)})
-        //     const user = res.user
-        //     console.log(user);
-        // })
-        // .catch(err => console.error(err))
-        // })
+            })
+        }
         
         
         // event.target.reset()

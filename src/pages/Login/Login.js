@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import { FaGoogle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
+import useJwtToken from '../../hooks/useJwtToken';
 
 
 
@@ -12,24 +13,38 @@ const Login = () => {
     const [loginError, setLoginError] = useState('')
     const { signIn, setLoading } = useContext(AuthContext)
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+    console.log(from);
+    const navigate = useNavigate()
+    const [userMail, setUserMail] = useState('')
+    const [token] = useJwtToken(userMail)
+    // console.log(userMail);
+    // console.log(token);
+
+    if (token) {
+        navigate(from, {replace: true})
+    }
 
     // login
     const handleLogin = data => {
-        setLoginError('')
+        // setLoginError('')
         signIn(data.email, data.password)
         .then(res => {
             toast.success('Signed in Succesfully!')
             const user = res.user
+            // console.log(user.email);
+            setUserMail(user.email)
             console.log(user);
-            setLoading(false)
-            // setUserMail(user.email)
+            // setLoading(false)
+            // console.log(userMail, token);
            
         })
         .catch(err => {
             setLoginError(err.message)
             toast.error(err.message)
-            console.error(err)
-            setLoading(false)
+            // console.error(err)
+            // setLoading(false)
         })
 
     }

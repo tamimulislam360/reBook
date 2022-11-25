@@ -1,19 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import './NavBar.css'
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const NavBar = () => {
-  const {user} = useContext(AuthContext)
+  const {user, logOut} = useContext(AuthContext)
     const myTheme = localStorage.getItem("theme");
-    const [theme, setTheme] = useState(myTheme ? myTheme : "light");
+  const [theme, setTheme] = useState(myTheme ? myTheme : "light");
+  // const navigate = useNavigate()
+
+  const location = useLocation()
 
     // menu Items
     const menuItems = <>
         <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="/">Home</NavLink></li>
         <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="categories">Categories</NavLink></li>
         <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="blogs">Blogs</NavLink></li>
+        {
+        user && user.uid && <>
+          <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="dashboard">Dashboard</NavLink></li>
+        </>
+        }
     </>
 
     // theming...
@@ -26,6 +34,12 @@ const NavBar = () => {
       .getElementsByTagName("html")[0]
       .setAttribute("data-theme", localStorage.getItem("theme"));
   }, [theme]);
+
+
+  // log out user
+  const handleLogout = () => {
+    logOut().then((res) => <Navigate to='/login' state={{from: location}} replace />).catch((err) => {})
+  }
 
     return (
         <div className="navbar bg-primary text-secondary shadow-md">
@@ -112,7 +126,7 @@ const NavBar = () => {
           </Link>
         </li>
         <li><Link>Settings</Link></li>
-        <li><Link>Logout</Link></li>
+        <li><Link onClick={handleLogout}>Logout</Link></li>
       </ul>
     </div>
       </> 
