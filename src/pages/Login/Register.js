@@ -101,7 +101,7 @@ const Register = () => {
               autoplay
               />
           </div>
-          {/* login form */}
+          {/* sign up form */}
           <div className="card flex-shrink-0 md:w-1/2 max-w-md shadow-2xl">
             <form onSubmit={handleSubmit(handleSignUp)} className="card-body bg-secondary rounded">
               <h2 className="text-xl font-bold text-center">Register</h2>

@@ -5,7 +5,7 @@ import router from "./routes/routes";
 
 function App() {
   return (
-    <div className="bg-primary h-screen w-full overflow-x-hidden">
+    <div className="bg-primary h-fit w-full overflow-x-hidden">
       <RouterProvider router={router} />
       <Toaster/>
     </div>
