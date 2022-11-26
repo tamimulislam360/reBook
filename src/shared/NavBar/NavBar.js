@@ -19,7 +19,7 @@ const NavBar = () => {
         <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="blogs">Blogs</NavLink></li>
         {
         user && user.uid && <>
-          <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="dashboard">Dashboard</NavLink></li>
+          <li><NavLink className="hover:bg-secondary hover:text-primary rounded-md mx-1 py-2 font-semibold" to="/dashboard">Dashboard</NavLink></li>
         </>
         }
     </>

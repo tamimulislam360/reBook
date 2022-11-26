@@ -21,20 +21,20 @@ const DashboardLayout = () => {
                 <ul className="menu p-4 w-80 text-secondary">
                
                 {
-                    isAdminOrSeller === 'buyer' && <li><Link className="font-semibold" to="/dashboard">My Orders</Link></li>
+                    isAdminOrSeller === 'buyer' && <li><Link className="font-semibold" to="/dashboard/myorders">My Orders</Link></li>
                 }
                 {
                 isAdminOrSeller === 'seller' && <>
-                    <li><Link className="font-semibold" to="/dashboard/users">Add A product</Link></li>
-                    <li><Link className="font-semibold" to="/dashboard/adddoctor">My Products</Link></li>
-                    <li><Link className="font-semibold" to="/dashboard/managedoctor">My buyers</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard/addproduct">Add A product</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard">My Products</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard/mybuyers">My buyers</Link></li>
                 </>
                 }
                 {
                 isAdminOrSeller === 'admin' && <>
-                    <li><Link className="font-semibold" to="/dashboard/managedoctor">All Sellers</Link></li>
-                    <li><Link className="font-semibold" to="/dashboard/managedoctor">All Buyers</Link></li>
-                    <li><Link className="font-semibold" to="/dashboard/managedoctor">Reported Items</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard/sellers">All Sellers</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard/buyers">All Buyers</Link></li>
+                    <li><Link className="font-semibold" to="/dashboard/reported">Reported Items</Link></li>
                 </>
                 }
                 </ul>
