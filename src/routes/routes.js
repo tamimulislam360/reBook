@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
             {
                 path: '/categories',
                 element: <Categories />,
+                loader: () => axios.get('http://localhost:5000/categories')
             },
             {
                 path: '/dashboard',

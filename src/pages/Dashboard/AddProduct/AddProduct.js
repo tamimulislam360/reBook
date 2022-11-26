@@ -16,7 +16,7 @@ const AddProduct = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     // const [date, setDate] = useState('2022')
 
-    const categories = ['Islamic', 'History', 'Programming', 'Fiction']
+    const categories = ['Islamic', 'History', 'Programming', 'Fiction', 'Other']
     const handleProduct = (data, e) => {
         // console.log(data.timeOfPurchase);
         // setDate(newdate)
