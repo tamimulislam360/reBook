@@ -13,7 +13,7 @@ const Categories = () => {
             <h2 className="text-2xl font-bold text-secondary text-center my-3">All categories</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-y-8 place-items-center">
                 {
-                    categories.map(category => <Link to={`/categories/${category.name}`} state={category.name} key={category._id}>
+                    categories.map(category => <Link to={`/categories/${category.name}`} key={category._id}>
                         <div className="card max-w-md h-52 shadow-2xl image-full">
                     <figure><img src={category.image} alt="" /></figure>
                     <div className="card-body grid place-items-center">

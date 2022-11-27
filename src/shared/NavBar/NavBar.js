@@ -42,7 +42,7 @@ const NavBar = () => {
   }
 
     return (
-        <div className="navbar bg-primary text-secondary shadow-md">
+        <div className="navbar bg-info/90 sticky top-0 z-20 backdrop-blur-lg text-white shadow-md">
   <div className="navbar-start">
     <div className="dropdown">
       <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -71,7 +71,7 @@ const NavBar = () => {
           onClick={() => setTheme("light")}
           className={`${
             theme === "light" ? "hidden" : "block"
-          } swap-on fill-secondary w-9 h-9`}
+          } swap-on fill-white w-9 h-9`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -82,7 +82,7 @@ const NavBar = () => {
           onClick={() => setTheme("dark")}
           className={`${
             theme === "dark" ? "hidden" : "block"
-          } swap-off fill-secondary w-9 h-9`}
+          } swap-off fill-white w-9 h-9`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -103,11 +103,11 @@ const NavBar = () => {
         </div>
       </label>
       <div tabIndex={0} className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
-        <div className="card-body">
+        <div className="card-body text-secondary">
           <span className="font-bold text-lg">8 Items</span>
           <span className="text-info">Subtotal: $999</span>
           <div className="card-actions">
-            <button className="btn btn-primary btn-block">View cart</button>
+            <button className="btn btn-secondary text-primary btn-block">View cart</button>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ const NavBar = () => {
           <img src={user?.photoURL ? user.photoURL : 'https://placeimg.com/80/80/people'} alt="" />
         </div>
       </label>
-      <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+      <ul tabIndex={0} className="menu text-secondary menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <li>
           <Link className="justify-between">
             Profile

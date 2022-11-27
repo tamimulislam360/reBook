@@ -2,6 +2,7 @@ import axios from "axios";
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Main from "../layouts/Main";
+import BookDetails from "../pages/BookDetails/BookDetails";
 import Categories from "../pages/Categories/Categories";
 import SingleCategory from "../pages/Categories/SingleCategory/SingleCategory";
 import AddProduct from "../pages/Dashboard/AddProduct/AddProduct";
@@ -39,7 +40,12 @@ const router = createBrowserRouter([
             },
             {
                 path: '/categories/:name',
-                element: <SingleCategory />
+                element: <PrivateRoute><SingleCategory /></PrivateRoute>,
+                // loader: () => axios.get('http://localhost:5000/categories')
+            },
+            {
+                path: '/categories/:category/:name',
+                element: <PrivateRoute><BookDetails /></PrivateRoute>
             },
             {
                 path: '/dashboard',
