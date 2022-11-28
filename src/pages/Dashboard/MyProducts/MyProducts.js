@@ -8,7 +8,7 @@ const MyProducts = () => {
     const { user, logOut } = useContext(AuthContext)
     const location = useLocation()
     
-    const { data: books = [], error, isLoading } = useQuery({
+    const { data: books = [], error, isLoading, refetch } = useQuery({
         queryKey: ['books', user?.email],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/books?email=${user?.email}`, {
@@ -26,6 +26,23 @@ const MyProducts = () => {
     })
     // console.log(books);
     // console.log(error);
+
+
+    // delete a book
+    const handleDelete = id => {
+        fetch(`http://localhost:5000/books/${id}`, {
+            method: 'DELETE',
+            headers: {authorization: `Bearer ${localStorage.getItem('accessToken')}`}
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.deletedCount > 0) {
+                toast.success('Book deleted successfully');
+                refetch()
+            }
+        })
+    }
 
 
     return (
@@ -68,7 +85,7 @@ const MyProducts = () => {
                     <div className="text-secondary font-semibold">Actions</div>
                     <div className='flex gap-3'>
                        {!book.sold &&  <button className="btn btn-sm btn-info text-white">Advertise</button>}
-                        <button className="btn btn-sm bg-red-600 hover:bg-red-500 border-0 text-white">Delete</button>
+                        <button onClick={() => handleDelete(_id)} className="btn btn-sm bg-red-600 hover:bg-red-500 border-0 text-white">Delete</button>
                     </div>
                 </div>
                </div>
