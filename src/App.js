@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-primary h-screen w-full overflow-x-hidden">
+      <div className="bg-primary w-full overflow-x-hidden">
         <RouterProvider router={router} />
         <Toaster />
       </div>
