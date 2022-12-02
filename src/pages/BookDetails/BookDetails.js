@@ -1,41 +1,46 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useState } from 'react';
-import { FaArrowLeft, FaQuoteLeft, FaStar } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthProvider';
+import { useQuery } from "@tanstack/react-query";
+import React, { useContext, useState } from "react";
+import { FaArrowLeft, FaQuoteLeft, FaStar } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import BookingModal from "../../components/ConfirmationModal/BookingModal";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const BookDetails = () => {
-    const {user} = useContext(AuthContext)
-    const [reviews, setReviews] = useState([]);
-    const location = useLocation()
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
+  const [booking, setBooking] = useState(null);
 
-    const { state: id } = useLocation()
+  const navigate = useNavigate();
 
-    const { data: book = {}, error, isLoading } = useQuery({
-        queryKey: ['books'],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/books/book/${id}`)
-            const data = await res.json()
-            return data
-        }
-    })
+  const { state: id } = useLocation();
 
-    const {name, image, description, sellingPrice, category} = book
-  
+  const {
+    data: book = {},
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["books"],
+    queryFn: async () => {
+      const res = await fetch(`https://rebook-server-nine.vercel.app/books/book/${id}`);
+      const data = await res.json();
+      return data;
+    },
+  });
 
-    const handleSubmit = (e) => {
-        
-    }
+  const { name, image, description, sellingPrice, category } = book;
 
+  const closeModal = () => {
+    setBooking(null);
+  };
 
-    return (
-        <div className="flex flex-col md:flex-row gap-2">
-      <div className="border grow shadow-2xl m-8 p-3 max-w-3xl">
+  return (
+    <div className="text-secondary flex justify-center">
+      <div className="border grow shadow-2xl m-8 p-3 max-w-4xl">
         <Link
-          to={`/categories/${category?.split(' ').join('-')}`}
+          to={`/categories/${category.split(" ").join("-")}`}
           className="flex justify-center items-center gap-2 w-24 mx-auto font-bold mb-8"
         >
-          <FaArrowLeft /> Back
+          <FaArrowLeft /> Go Back
         </Link>
         <img className="w-full h-96" src={image} alt={name} />
         <h2 className="text-3xl font-bold my-3">{name}</h2>
@@ -50,70 +55,20 @@ const BookDetails = () => {
             <FaStar />
           </div>
         </div>
-        <button className="btn block w-full my-3">Buy This course</button>
+        <label
+          onClick={() => setBooking(book)}
+          htmlFor="bookingModal"
+          className="btn btn-secondary text-primary flex jsutify-center items-center w-full my-3"
+        >
+          Book Now
+        </label>
       </div>
 
-      {/* review */}
-      <div className="min-w-[250px] grow px-2 mr-2 mt-8">
-        <div className="border rounded pb-2 relative">
-          <h2 className="text-xl text-center font-semibold bg-white border w-max mx-auto rounded-full px-3 -mt-4">
-            Students reviews
-          </h2>
-
-          <div className="max-h-[500px] overflow-y-auto">
-            {/* single review */}
-            {reviews.map((review) => {
-              const { name, image, userReview } = review;
-              return (
-                <div key={review._id} className="py-2 relative mt-2">
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      className="w-12 h-12 rounded-full"
-                      src={image}
-                      alt={name}
-                    />
-                    <h2 className="font-semibold">{name}</h2>
-                  </div>
-                  <div className="text-center">
-                    <FaQuoteLeft className="text-sm font-bold block mx-auto" />
-                    <p className="text-sm text-slate-600">{userReview}</p>
-                  </div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-violet-900"></div>
-                </div>
-              );
-            })}
-            {reviews.length === 0 && (
-              <div className="font-bold text-center my-3">No reviews yet</div>
-            )}
-
-            {/* single review ends */}
-          </div>
-          <div className="bg-gradient-to-t from-white/75 pt-6">
-            {user && user.uid ? (
-              <form onSubmit={handleSubmit}>
-                <textarea
-                  name="userReview"
-                  className="textarea textarea-primary h-20 w-full"
-                  placeholder="Add review"
-                ></textarea>
-                <input
-                  type="submit"
-                  className="btn block w-full"
-                  value="Add Review"
-                />
-              </form>
-            ) : (
-              <Link to="/login" state={{ from: location }} replace>
-                <button className="btn btn-xs block mx-auto">
-                  Please login to add review
-                </button>
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
+      {booking && (
+        <BookingModal closeModal={closeModal} bookingData={booking} />
+      )}
     </div>
-    );
+  );
 };
 
 export default BookDetails;

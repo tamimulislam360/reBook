@@ -1,22 +1,28 @@
-import React, { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthProvider';
+import React, { useContext } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 const PrivateRoute = ({ children }) => {
-    const { user, loading } = useContext(AuthContext)
-    const location = useLocation()
+  const { user, loading } = useContext(AuthContext);
+  const location = useLocation();
 
-    if (loading) {
-        return (
-          <div className="w-screen h-screen flex justify-center items-center">
-            <progress className="progress w-56"></progress>
-          </div>
-        );
-    }
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <Player
+          src="https://assets4.lottiefiles.com/packages/lf20_2scSKA.json"
+          className="player transparent"
+          loop
+          autoplay
+        />
+      </div>
+    );
+  }
 
-    if(user && user.uid) return children
-    
-    return <Navigate to="/login" state={{from: location}} replace />
+  if (user && user.uid) return children;
+
+  return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;

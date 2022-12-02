@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import app from "../firebase/firebase.config";
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -10,6 +11,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { Player } from "@lottiefiles/react-lottie-player";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -20,15 +22,17 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [logLoadin, setLogLoadin] = useState(false);
 
   // create user
   const createUser = (email, password) => {
+    setLogLoadin(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // signIn user
   const signIn = (email, password) => {
-    // setLoading(true);
+    setLogLoadin(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
@@ -49,6 +53,11 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // delet a user
+  const deleteAuser = () => {
+    return deleteUser(user);
+  };
+
   const authInfo = {
     user,
     createUser,
@@ -58,6 +67,9 @@ const AuthProvider = ({ children }) => {
     logOut,
     loading,
     setLoading,
+    deleteAuser,
+    setLogLoadin,
+    logLoadin,
   };
 
   useEffect(() => {
@@ -71,7 +83,12 @@ const AuthProvider = ({ children }) => {
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        <progress className="progress w-56"></progress>
+        <Player
+          src="https://assets4.lottiefiles.com/packages/lf20_2scSKA.json"
+          className="player transparent"
+          loop
+          autoplay
+        />
       </div>
     );
   }

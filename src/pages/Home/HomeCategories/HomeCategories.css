@@ -1,0 +1,31 @@
+.swiper-button-next {
+  background: url(https://cdn-icons-png.flaticon.com/512/21/21122.png);
+  filter: invert(1);
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 0px;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%);
+  }
+  .swiper-button-prev {
+    background: url(https://cdn-icons-png.flaticon.com/512/21/21122.png);
+    filter: invert(1);
+      background-repeat: no-repeat;
+      background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%) rotate(-180deg);
+    margin-top: 0px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after{
+    display: none;
+  }
