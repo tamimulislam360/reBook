@@ -3,6 +3,8 @@
 A second hand book store.
 
 Live site: [reBook](https://rebook-29916.web.app/).
+admin: tamimulislam@gmail.com
+pass: tamim@
 
 ## Funtionality
 - Email / password authentication
