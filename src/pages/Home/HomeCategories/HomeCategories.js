@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Link } from "react-router-dom";
-import Heading from "../../../components/ConfirmationModal/Heading";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-// import 'swiper/css/scrollbar';
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper";
 import "./HomeCategories.css";
 import SimpleButton from "../../../components/ConfirmationModal/SimpleButton";
+import SliderHeader from "../../../components/SliderHeader/SliderHeader";
 
 const HomeCategories = () => {
   const {
@@ -26,11 +25,13 @@ const HomeCategories = () => {
     },
   });
 
-  const swiper = useSwiper();
+
   return (
     <div className="-mt-32 sm:mt-0">
-      <Heading>Categories</Heading>
       <div className="p-4 sm:px-8">
+
+        <SliderHeader arrowNextButtonClass="custom-swiper-button-next" arrowPrevButtonClass="custom-swiper-button-prev" >categories</SliderHeader>
+
         <Swiper
           breakpoints={{
             640: {
@@ -46,18 +47,23 @@ const HomeCategories = () => {
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={50}
           slidesPerView={1}
-          navigation
+          navigation={{
+            nextEl: '.custom-swiper-button-next',
+            prevEl: '.custom-swiper-button-prev',
+          }}
           scrollbar={{ draggable: true }}
+          loop={true}
           className=""
         >
+          
           {categories.map((category) => (
             <SwiperSlide key={category._id}>
               <Link className="w-full" to={`/categories/${category.name}`}>
-                <div className="card h-28 shadow-2xl image-full w-full">
+                <div className="card h-24 shadow-2xl image-full w-full">
                   <figure>
                     <img className="w-full" src={category.image} alt="" />
                   </figure>
-                  <div className="card-body grid place-items-center">
+                  <div className="z-20 grid place-items-center">
                     <h1 className="font-extrabold text-white text-3xl">
                       {category.name}
                     </h1>

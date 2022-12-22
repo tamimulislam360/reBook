@@ -20,7 +20,7 @@ const Home = () => {
     <div>
       <Banner />
       <HomeCategories />
-      {books.length !== 0 && <Advertised books={books} />}
+      {books.length !== 0 && <Advertised isLoading={isLoading} books={books} />}
       <WhyChoose />
       <Footer />
     </div>

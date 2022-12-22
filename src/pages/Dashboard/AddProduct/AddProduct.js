@@ -6,9 +6,11 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase/firebase.config";
 import toast from "react-hot-toast";
 import { format } from "date-fns/esm";
+import Loading from "../../../shared/Loading/Loading";
 
 const AddProduct = () => {
   const { user } = useContext(AuthContext);
+  const [loading, isLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -16,8 +18,11 @@ const AddProduct = () => {
   } = useForm();
   const navigate = useNavigate();
 
+  loading && <Loading/>
+
   const categories = ["Islamic", "History", "Programming", "Fiction", "Other"];
   const handleProduct = (data, e) => {
+    isLoading(true)
     const postDate = new Date();
     const purchasedTime = format(new Date(data.timeOfPurchase), "PP");
     const {
@@ -67,6 +72,7 @@ const AddProduct = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data.acknowledged) {
+              isLoading(false)
               toast.success("Successfully added.");
               e.target.reset();
               navigate("/dashboard");

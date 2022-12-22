@@ -139,7 +139,7 @@ const MyProducts = () => {
                     {(!book.sold || book.sold === "unsold") && (
                       <button
                         onClick={() => handleAdvertise(book._id)}
-                        className="btn btn-sm btn-info text-white"
+                        className={`btn btn-sm btn-info text-white ${book.isAdvertised === "true" && 'hidden'}`}
                         disabled={book.isAdvertised === "true"}
                       >
                         {book.isAdvertised === "true"

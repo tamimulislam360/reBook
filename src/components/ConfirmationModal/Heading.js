@@ -1,12 +1,17 @@
 import React from "react";
 
-const Heading = ({ children, classes }) => {
+const Heading = ({ children, classes, subHeading, headingClasses, subHeadingClasses }) => {
   return (
-    <h2
-      className={`uppercase isolate p-2 px-8 inline-block text-2xl font-bold text-white ml-10 my-2 relative before:block before:absolute before:inset-0 before:-skew-x-12 before:w-full before:-z-10 before:bg-info ${classes}`}
-    >
-      {children}
-    </h2>
+    <div className={`p-2 ml-10 my-2 ${classes}`}>
+      <h2
+        className={`uppercase text-2xl font-bold text-violet-700 ${headingClasses}`}
+      >
+        {children}
+      </h2>
+      { subHeading &&
+        <p className={`text-secondary ${subHeadingClasses}`}>{subHeading}</p>
+      }
+    </div>
   );
 };
 
