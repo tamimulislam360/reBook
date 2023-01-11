@@ -21,7 +21,9 @@ const BookDetails = () => {
   } = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
-      const res = await fetch(`https://rebook-server-nine.vercel.app/books/book/${id}`);
+      const res = await fetch(
+        `https://rebook-server-nine.vercel.app/books/book/${id}`
+      );
       const data = await res.json();
       return data;
     },
@@ -37,7 +39,7 @@ const BookDetails = () => {
     <div className="text-secondary flex justify-center">
       <div className="border grow shadow-2xl m-8 p-3 max-w-4xl">
         <Link
-          to={`/categories/${category.split(" ").join("-")}`}
+          to={`/categories/${category}`}
           className="flex justify-center items-center gap-2 w-24 mx-auto font-bold mb-8"
         >
           <FaArrowLeft /> Go Back

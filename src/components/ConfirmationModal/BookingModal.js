@@ -5,11 +5,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import useVerified from "../../hooks/useVerified";
+// import './BookingModal.css'
 
 const BookingModal = ({ bookingData, closeModal }) => {
   const { user } = useContext(AuthContext);
   const [verified] = useVerified();
   const navigate = useNavigate();
+
 
   const {
     _id,
@@ -84,7 +86,7 @@ const BookingModal = ({ bookingData, closeModal }) => {
       .catch((err) => toast.error(err.message));
   };
   return (
-    <div>
+    <div className="z-50 w-scrren h-scrren bookingModal">
       <input type="checkbox" id="bookingModal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">

@@ -5,8 +5,10 @@ import ReactTimeAgo from 'react-time-ago';
 import BookingModal from '../../components/ConfirmationModal/BookingModal';
 import useVerified from '../../hooks/useVerified';
 
-const BookTemplate = ({ book }) => {
-  const [booking, setBooking] = useState(null);
+const BookTemplate = ({ book, setBookingData }) => {
+  // const [booking, setBooking] = useState(null);
+
+  const bookPath = `/categories/${book?.category?.split(" ").join("-")}/${book?.name?.split(" ").join("-")}`
 
     const {
         _id,
@@ -33,7 +35,7 @@ const BookTemplate = ({ book }) => {
       );
       
       const closeModal = () => {
-        setBooking(null);
+        setBookingData(null);
       };
       
     return (
@@ -62,7 +64,7 @@ const BookTemplate = ({ book }) => {
                 </p>
                 <div className="card-actions justify-center items-center my-2">
                   <label
-                    onClick={() => setBooking(book)}
+                    onClick={() => setBookingData(book)}
                     htmlFor="bookingModal"
                     className="btn btn-secondary text-primary font-bold btn-xs tooltip flex justify-center items-center"
                     data-tip="Book Now"
@@ -71,9 +73,7 @@ const BookTemplate = ({ book }) => {
                   </label>
 
                   <Link
-                    to={`/categories/${book.category
-                      .split(" ")
-                      .join("-")}/${book.name.split(" ").join("-")}`}
+                    to={bookPath}
                     state={book._id}
                   >
                     <button
@@ -115,9 +115,6 @@ const BookTemplate = ({ book }) => {
                 </p>
               </div>
             </div>
-            {booking && (
-        <BookingModal closeModal={closeModal} bookingData={booking} />
-      )}
         </div>
     );
 };
