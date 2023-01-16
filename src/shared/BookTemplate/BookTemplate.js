@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { FaCartPlus, FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ReactTimeAgo from 'react-time-ago';
 import BookingModal from '../../components/ConfirmationModal/BookingModal';
+import { wishlistContext } from '../../contexts/WishListProvider';
 import useVerified from '../../hooks/useVerified';
 
 const BookTemplate = ({ book, setBookingData }) => {
-  // const [booking, setBooking] = useState(null);
+  const {setReFetch} = useContext(wishlistContext)
 
   const bookPath = `/categories/${book?.category?.split(" ").join("-")}/${book?.name?.split(" ").join("-")}`
 
@@ -38,6 +40,27 @@ const BookTemplate = ({ book, setBookingData }) => {
         setBookingData(null);
       };
       
+      // handle wish list
+      const handleWishList = (id) => {
+        const list = JSON.parse(localStorage.getItem('rebookWishlist'))
+        if (list) {
+          const exist = list.includes(id)
+          if (exist) {
+            return toast.error('already added')
+          } else {
+            const newList = [...list, id]
+            localStorage.setItem('rebookWishlist', JSON.stringify(newList))
+            toast.success('Added to wishlist')
+            setReFetch(Math.random())
+          }
+        } else {
+          const list = [id]
+          localStorage.setItem('rebookWishlist', JSON.stringify(list))
+          toast.success('Added to wishlist')
+          setReFetch(Math.random())
+        }
+      }
+  
     return (
         <div>
             <div
@@ -45,7 +68,9 @@ const BookTemplate = ({ book, setBookingData }) => {
               className="card max-w-[200px] w-full bg-base-100 shadow-2xl text-secondary p-2"
             >
               <figure className="relative">
-                <img src={image} alt="" className="rounded-xl w-full h-60" />
+                <Link to={bookPath} state={book._id} className="w-full">               
+                  <img src={image} alt="" className="rounded-xl w-full h-60" />
+                </Link>
                 <p className="text-sm italic text-right badge badge-info absolute top-2 right-2">
                     {conditon}
                 </p>
@@ -53,66 +78,36 @@ const BookTemplate = ({ book, setBookingData }) => {
               <div className="card-body p-0">
                 <div className="flex justify-between items-center mt-2">
                   <h2 className="text-base font-semibold text-secondary basis-full">
-                    {name}{" "}
+                    {name}
                   </h2>
-                  <p className="text-xl font-bold text-info ml-3">
-                    ${sellingPrice}
-                  </p>
                 </div>
                 <p className="text-xs italic -mt-2">
                   {writer}
+                </p>
+                <p className="text-xl font-bold text-info ml-3">
+                    ${sellingPrice}
                 </p>
                 <div className="card-actions justify-center items-center my-2">
                   <label
                     onClick={() => setBookingData(book)}
                     htmlFor="bookingModal"
-                    className="btn btn-secondary text-primary font-bold btn-xs tooltip flex justify-center items-center"
+                    className="btn btn-secondary text-primary font-bold btn-xs text-[10px] tooltip flex justify-center items-center"
                     data-tip="Book Now"
                   >
-                    <FaCartPlus />
+                    Book now
                   </label>
 
-                  <Link
-                    to={bookPath}
-                    state={book._id}
-                  >
-                    <button
-                      className="btn btn-secondary text-primary font-bold btn-xs text-[10px] p-1 tooltip"
-                      data-tip="See Details"
-                    >
-                      See Details
-                    </button>
-                  </Link>
+                  
                   <button
-                    className="btn btn-secondary text-primary font-bold btn-xs text-[10px] p-1 tooltip"
-                    data-tip="Report to admin"
+                    className="btn btn-secondary text-primary font-bold btn-xs tooltip"
+                    data-tip="Add to wishlist"
+                    onClick={() => handleWishList(_id)}
                   >
-                    Report
+                    <FaCartPlus />
                   </button>
                 </div>
-              </div>
-              <div className="flex flex-col mt-3">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={sellerImage}
-                    className="w-8 h-8 rounded-full"
-                    alt=""
-                  />
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h2 className="font-bold text-xs m-0">{seller}</h2>{" "}
-                      {sellerVerified?.email === book.sellerEmail && (
-                        <span className="tooltip" data-tip="verified">
-                          <FaCheckCircle className="w-3 hover:text-accent" />
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs">Seller</p>
-                  </div>
-                </div>
-                <p className="italic text-xs text-right grow">
-                  <ReactTimeAgo date={postDate} locale="en-US" />
-                </p>
+                
+                
               </div>
             </div>
         </div>

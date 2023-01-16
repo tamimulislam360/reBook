@@ -39,7 +39,7 @@ const SingleCategory = () => {
   };
 
   if (isLoading) return <Loading />;
-
+console.log('rendering');
   return (
     <div className="px-3">
       <h2 className="text-2xl font-bold text-center text-secondary my-3">

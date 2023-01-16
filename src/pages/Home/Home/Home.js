@@ -4,6 +4,7 @@ import Advertised from "../Advertised/Advertised";
 import Banner from "../Banner/Banner";
 import Footer from "../Footer/Footer";
 import HomeCategories from "../HomeCategories/HomeCategories";
+import TestimonialSection from "../TestimonialSection/TestimonialSection";
 import WhyChoose from "../WhyChoose/WhyChoose";
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
       <HomeCategories />
       {books.length !== 0 && <Advertised isLoading={isLoading} books={books} />}
       <WhyChoose />
+      <TestimonialSection/>
       <Footer />
     </div>
   );

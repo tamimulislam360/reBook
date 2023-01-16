@@ -6,16 +6,17 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { FaStream, FaUser } from "react-icons/fa";
+import { FaCartPlus, FaStream, FaUser } from "react-icons/fa";
 import "./NavBar.css";
 import { AuthContext } from "../../contexts/AuthProvider";
 import logo from "../../rebook.png";
+import { wishlistContext } from "../../contexts/WishListProvider";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const myTheme = localStorage.getItem("theme");
   const [theme, setTheme] = useState(myTheme ? myTheme : "light");
-  // const navigate = useNavigate()
+  const {wishlist} = useContext(wishlistContext)
 
   const location = useLocation();
 
@@ -124,6 +125,12 @@ const NavBar = () => {
           >
             <FaStream />
           </label>
+
+          {/* wishlist */}
+          <Link className="relative">
+            <FaCartPlus className="w-6 h-6 mr-2" /> 
+            <span className="rounded-full flex justify-center items-center bg-red-400 text-white w-4 h-4 absolute -top-2 right-0">{wishlist.length}</span>
+          </Link>
 
           {/* theme toggler */}
           <label className="cursor-pointer">
